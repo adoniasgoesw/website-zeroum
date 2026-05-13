@@ -1,0 +1,20 @@
+@import "tailwindcss";
+@import "@fontsource/poppins/latin.css";
+
+@theme {
+  --font-sans: "Poppins", ui-sans-serif, system-ui, sans-serif;
+  --color-backdrop-primary: #D9D9D9;
+  --color-backdrop-secondary: #939394;
+  --color-title-primary: #666666;
+  --color-text-primary: #939394;
+  --color-quote-primary: #666666;
+  --color-button-testimonials-primary: #666666;
+  --color-text-button-testimonials: #939394;
+  --color-text-testimonials-primary: #C5C1C1;
+}
+
+@layer base {
+  html {
+    @apply font-sans antialiased;
+  }
+}
