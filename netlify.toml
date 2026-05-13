@@ -1,0 +1,14 @@
+# Build na pasta da app React (Vite).
+# Importante: tem de existir sempre `npm run build` — publicar `client/` sem build
+# faz o browser carregar .jsx como ficheiro estático → MIME octet-stream.
+
+[build]
+  base = "client"
+  command = "npm ci && npm run build"
+  publish = "dist"
+
+# React Router em modo browser: rotas diretas devem servir index.html.
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
