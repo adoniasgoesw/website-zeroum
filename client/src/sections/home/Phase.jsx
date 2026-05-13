@@ -35,7 +35,7 @@ export default function Phase() {
             className="bg-backdrop-primary box-border flex w-full min-w-0 flex-col py-20 min-h-screen px-10 md:px-16 lg:px-24 xl:px-32"
         >
             <div className="mx-auto flex w-full min-w-0 max-w-7xl flex-col gap-10">
-                <h1 className="mx-auto w-full max-w-4xl text-center text-6xl font-semibold text-balance md:text-pretty wrap-break-word">
+                <h1 className="mx-auto w-full max-w-3xl  text-center text-4xl sm:text-6xl font-semibold text-balance md:text-pretty wrap-break-word">
                     {WORDS.map((word, i) => (
                         <span key={i}>
                             {i > 0 ? " " : null}

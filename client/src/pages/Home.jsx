@@ -4,6 +4,7 @@ import Products from "../sections/home/Products";
 import Phase from "../sections/home/Phase";
 import About from "../sections/home/About";
 import Testimonials from "../sections/home/Testimonials";
+import Galery from "../sections/home/Galery";
 
 export default function Home() {
     return (
@@ -13,6 +14,7 @@ export default function Home() {
             <Products />
             <Phase />
             <Testimonials />
+            <Galery />
         </div>
     )
 }
