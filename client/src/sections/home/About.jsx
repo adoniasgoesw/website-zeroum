@@ -4,6 +4,10 @@ import { company } from "../../data/Data";
 
 const viewportAbout = { once: true, amount: 0.32 };
 
+/** Mesmo raio dos tiles em Galery.jsx (`tileShellBase`). */
+const aboutImageRadius =
+    "overflow-hidden rounded-3xl sm:rounded-[1.35rem] md:rounded-3xl";
+
 const easeSmooth = [0.22, 1, 0.36, 1];
 const easeCount = [0.25, 0.1, 0.25, 1];
 
@@ -269,13 +273,15 @@ export default function About() {
                     <div className="relative h-full min-h-[220px] w-full">
                         <motion.div
                             variants={imageOne}
-                            className="absolute top-0 left-0 aspect-square w-[58%] max-h-[400px] max-w-[400px] origin-center rounded-sm bg-backdrop-secondary"
+                            className={`absolute top-0 left-0 aspect-square w-[58%] max-h-[400px] max-w-[400px] origin-center bg-backdrop-secondary ${aboutImageRadius}`}
                         />
                         <motion.div
                             variants={imageTwo}
-                            className="absolute right-0 bottom-0 aspect-square w-[58%] max-h-[400px] max-w-[400px] origin-center rounded-sm bg-backdrop-primary p-3 sm:p-4"
+                            className={`absolute right-0 bottom-0 aspect-square w-[58%] max-h-[400px] max-w-[400px] origin-center bg-backdrop-primary p-3 sm:p-4 ${aboutImageRadius}`}
                         >
-                            <div className="h-full w-full rounded-sm bg-backdrop-secondary" />
+                            <div
+                                className={`h-full w-full bg-backdrop-secondary ${aboutImageRadius}`}
+                            />
                         </motion.div>
                     </div>
                 </div>

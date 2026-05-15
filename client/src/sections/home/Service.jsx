@@ -5,7 +5,10 @@ import { services } from "../../data/Data";
 
 const viewportHeader = { once: true, amount: 0.22, margin: "0px 0px -8% 0px" };
 
-const viewportCards = { once: true, amount: 0.48, margin: "0px 0px -10% 0px" };
+const viewportCards = { once: true, amount: 0.42, margin: "0px 0px -10% 0px" };
+
+/** Mesma família que Testimonials — arranque calmo, fecho mais vivo */
+const serviceEase = [0.25, 0.1, 0.25, 1];
 
 function subscribeToServiceBreakpoints(onChange) {
     const mqXl = window.matchMedia("(min-width: 1280px)");
@@ -28,7 +31,7 @@ function useServiceGridColumns() {
     return useSyncExternalStore(
         subscribeToServiceBreakpoints,
         serviceGridColumnsSnapshot,
-        () => 1
+        () => 1,
     );
 }
 
@@ -43,7 +46,7 @@ function chunkByRow(items, columns) {
 const headerContainer = {
     hidden: {},
     visible: {
-        transition: { staggerChildren: 0.12, delayChildren: 0.04 },
+        transition: { staggerChildren: 0.14, delayChildren: 0.04 },
     },
 };
 
@@ -56,23 +59,34 @@ const headerChild = {
     visible: {
         opacity: 1,
         y: 0,
-        transition: { duration: 0.55, ease: [0.22, 1, 0.36, 1] },
+        transition: { duration: 0.58, ease: serviceEase },
     },
 };
 
+/** Depois do título/descrição: cada linha de cards entra com stagger */
+const cardsContainer = {
+    hidden: {},
+    visible: {
+        transition: {
+            delayChildren: 0.20,
+            staggerChildren: 0.22,
+        },
+    },
+};
+
+/** Slide direita → esquerda, lento no início e mais rápido no fim */
 const rowSlide = {
     hidden: {
         opacity: 0,
-        x: "clamp(4rem, 18vw, 10rem)",
-        transition: { duration: 0.4, ease: [0.4, 0, 1, 1] },
+        x: "clamp(2.5rem, 12vw, 7rem)",
+        transition: { duration: 0.32, ease: [0.4, 0, 0.2, 1] },
     },
     visible: {
         opacity: 1,
         x: 0,
         transition: {
-            duration: 2.0,
-            delay: 0.3,
-            ease: [0.22, 1, 0.36, 1],
+            duration: 1.46,
+            ease: serviceEase,
         },
     },
 };
@@ -82,7 +96,7 @@ export default function Service() {
     const rows = chunkByRow(services, columns);
 
     return (
-        <section className="bg-backdrop-primary box-border flex w-full min-w-0 flex-col overflow-x-hidden py-20 min-h-screen px-10 md:px-16 lg:px-24 xl:px-32">
+        <section className="box-border flex min-h-screen w-full min-w-0 flex-col overflow-x-hidden bg-backdrop-primary px-10 py-20 md:px-16 lg:px-24 xl:px-32">
             <div className="flex min-h-0 w-full min-w-0 flex-1 flex-col gap-10">
                 <motion.div
                     className="flex flex-col gap-2"
@@ -92,28 +106,32 @@ export default function Service() {
                     variants={headerContainer}
                 >
                     <motion.h1
-                        className="text-4xl sm:text-5xl font-semibold text-title-primary"
+                        className="text-center text-4xl font-semibold text-title-primary sm:text-5xl md:text-start"
                         variants={headerChild}
                     >
                         Escolha seu estilo
                     </motion.h1>
                     <motion.p
-                        className="text-xs font-light max-w-lg wrap-break-word text-text-primary"
+                        className="mx-auto max-w-lg text-center text-xs font-light wrap-break-word text-text-primary md:mx-0 md:text-start"
                         variants={headerChild}
                     >
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-                        incididunt ut labore et dolore magna aliqua.
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+                        sed do eiusmod tempor incididunt ut labore et dolore magna
+                        aliqua.
                     </motion.p>
                 </motion.div>
 
-                <div className="flex h-full w-full min-w-0 flex-col gap-6">
+                <motion.div
+                    className="flex h-full w-full min-w-0 flex-col gap-6"
+                    initial="hidden"
+                    whileInView="visible"
+                    viewport={viewportCards}
+                    variants={cardsContainer}
+                >
                     {rows.map((row, rowIndex) => (
                         <motion.div
                             key={`${columns}-${row.map((s) => s.id).join("-")}-${rowIndex}`}
                             className="grid w-full min-w-0 grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-4"
-                            initial="hidden"
-                            whileInView="visible"
-                            viewport={viewportCards}
                             variants={rowSlide}
                         >
                             {row.map(({ id, title, description, image }) => (
@@ -128,7 +146,7 @@ export default function Service() {
                             ))}
                         </motion.div>
                     ))}
-                </div>
+                </motion.div>
             </div>
         </section>
     );
