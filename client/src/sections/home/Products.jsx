@@ -4,6 +4,7 @@ import { animate, motion, useMotionValue } from "framer-motion";
 import Tag from "@/components/Tag";
 import Divisor from "@/components/Divisor";
 import ProductCard from "@/components/Cards/ProductCard";
+import Reveal from "@/components/motion/Reveal";
 import { products } from "@/data/Data";
 import { PRODUCT_SLIDE_TRANSITION } from "@/constants/testimonialsMotion";
 import { ChevronLeft, ChevronRight } from "lucide-react";
@@ -146,8 +147,8 @@ export default function Products() {
             className="flex min-h-screen w-full items-start justify-center bg-background-primary px-6 sm:px-10 py-20 md:px-16 lg:px-20 xl:px-32"
         >
             <div className="flex w-full flex-col gap-10">
-                <div className="flex w-full flex-col items-center justify-center gap-5">
-                    <div className="flex flex-col items-center justify-center gap-2">
+                <Reveal className="flex w-full flex-col items-center justify-center gap-5">
+                    <div className="flex flex-col items-center gap-2">
                         <Tag text="Loja" />
                         <Divisor />
                     </div>
@@ -155,11 +156,11 @@ export default function Products() {
                         <h1 className="mx-auto max-w-lg text-center font-syncopate text-4xl font-bold capitalize text-light-primary md:max-w-none xl:text-5xl">
                             Nosso <span className="text-highlight-primary">Produtos</span>
                         </h1>
-                        <p className="mx-auto max-w-lg text-center text-sm leading-relaxed text-light-primary/85   font-poppins font-light">
-                        Pomadas, ceras, óleos e finalizadores para manter o cabelo e a barba como você gosta no dia a dia.
+                        <p className="mx-auto max-w-lg text-center font-poppins text-sm font-light leading-relaxed text-light-primary/85">
+                            Pomadas, ceras, óleos e finalizadores para manter o cabelo e a barba como você gosta no dia a dia.
                         </p>
                     </div>
-                </div>
+                </Reveal>
 
                 <div ref={viewportRef} className="w-full overflow-hidden">
                     {strip.length > 0 && cardW > 0 ? (

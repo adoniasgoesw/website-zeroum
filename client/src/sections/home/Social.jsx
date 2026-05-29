@@ -3,6 +3,7 @@ import { AnimatePresence, motion, useAnimationFrame, useMotionValue } from "fram
 import Tag from "@/components/Tag";
 import Divisor from "@/components/Divisor";
 import Button from "@/components/Buttons/Button";
+import Reveal from "@/components/motion/Reveal";
 import { FaInstagram } from "react-icons/fa";
 import SocialCard from "@/components/Cards/SocialCard";
 import { links, social } from "@/data/Data";
@@ -220,45 +221,43 @@ export default function Social() {
             className="flex min-h-screen w-full items-start justify-center bg-background-primary px-6 sm:px-10 py-20 md:items-center md:px-16 lg:px-20 xl:px-32"
         >
             <div className="flex h-full w-full flex-col items-center justify-center gap-10 lg:flex-row">
-                <div className="flex w-full flex-col items-center justify-center gap-5 lg:w-1/2 lg:items-start lg:justify-start">
-                    <div className="flex flex-col items-center justify-center gap-2 md:items-start">
+                <Reveal className="flex w-full flex-col items-center justify-center gap-5 lg:w-1/2 lg:items-start lg:justify-start">
+                    <div className="flex flex-col items-center gap-2 md:items-start">
                         <Tag text="Instagram" />
                         <Divisor />
                     </div>
                     <div className="flex flex-col gap-2">
-                        <h1 className="max-w-lg text-center font-syncopate text-3xl font-bold capitalize text-light-primary sm:text-4xl xl:text-5xl lg:text-start">
+                        <h1 className="max-w-lg text-center font-syncopate text-3xl font-bold capitalize text-light-primary sm:text-4xl lg:text-start xl:text-5xl">
                             Estamos no <span className="text-highlight-primary">Instagram</span>
                         </h1>
-                        <p className="mx-auto max-w-md text-center text-sm leading-relaxed text-light-primary/85  lg:mx-0 lg:text-start font-poppins font-light">
-                        Quer conhecer melhor nosso trabalho? No Instagram você encontra resultados, bastidores e novidades do studio.
+                        <p className="mx-auto max-w-md text-center font-poppins text-sm font-light leading-relaxed text-light-primary/85 lg:mx-0 lg:text-start">
+                            Quer conhecer melhor nosso trabalho? No Instagram você encontra resultados, bastidores e novidades do studio.
                         </p>
                     </div>
 
-                    <div>
-                        {links.instagram ? (
-                            <a
-                                href={links.instagram}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="inline-flex"
-                                aria-label="Abrir perfil do Zero Um no Instagram"
-                            >
-                                <Button
-                                    icon={<FaInstagram />}
-                                    text="Ver perfil"
-                                    type="button"
-                                />
-                            </a>
-                        ) : (
+                    {links.instagram ? (
+                        <a
+                            href={links.instagram}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex"
+                            aria-label="Abrir perfil do Zero Um no Instagram"
+                        >
                             <Button
                                 icon={<FaInstagram />}
-                                text="Instagram"
+                                text="Ver perfil"
                                 type="button"
-                                disabled
                             />
-                        )}
-                    </div>
-                </div>
+                        </a>
+                    ) : (
+                        <Button
+                            icon={<FaInstagram />}
+                            text="Instagram"
+                            type="button"
+                            disabled
+                        />
+                    )}
+                </Reveal>
 
                 {/* Hover (desktop) ou toque/teclado (mobile): desacelera colunas + emojis */}
                 <div

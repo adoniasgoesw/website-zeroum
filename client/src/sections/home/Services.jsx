@@ -1,40 +1,39 @@
 import Tag from "@/components/Tag";
 import Divisor from "@/components/Divisor";
 import ServiceCard from "@/components/Cards/ServiceCard";
+import Reveal from "@/components/motion/Reveal";
 import { services } from "@/data/Data";
-
 
 export default function Services() {
     return (
         <section
             id="services"
-            className="flex min-h-screen w-full items-start justify-start bg-background-primary px-6 sm:px-10 py-20 md:px-16 lg:px-20 xl:px-32"
+            className="flex min-h-screen w-full items-start justify-start bg-background-primary px-6 py-20 sm:px-10 md:px-16 lg:px-20 xl:px-32"
         >
-            <div className="flex flex-col gap-10 w-full">
-            <div className="flex flex-col items-center md:items-start gap-5">
-                    <div className="flex flex-col items-center justify-center gap-2 md:items-start">
-                        <Tag text="Serviços" />
-                        <Divisor />
-                    </div>
-                    <div className="flex flex-col gap-2 ">
-                        <h1 className="max-w-lg md:max-w-none text-center font-syncopate  font-bold capitalize text-light-primary text-4xl xl:text-5xl text-center md:text-start">
-                            Escolha seu <span className="text-highlight-primary">Estilo</span>
-                        </h1>
-                        <p className="mx-auto max-w-lg text-center text-sm leading-relaxed text-light-primary/85  md:mx-0 md:text-start font-poppins font-light">
-                        Oferecemos diferentes serviços para atender sua rotina e suas necessidades, sempre com conforto, qualidade e atendimento próximo.
-                        </p>
-                    </div>
-
-                    
+            <div className="flex w-full flex-col gap-10">
+                <div className="flex flex-col items-center gap-5 md:items-start">
+                    <Reveal className="flex w-full flex-col items-center gap-5 md:items-start">
+                        <div className="flex flex-col items-center gap-2 md:items-start">
+                            <Tag text="Serviços" />
+                            <Divisor />
+                        </div>
+                        <div className="flex flex-col gap-2">
+                            <h1 className="max-w-lg text-center font-syncopate text-4xl font-bold capitalize text-light-primary md:max-w-none md:text-start xl:text-5xl">
+                                Escolha seu <span className="text-highlight-primary">Estilo</span>
+                            </h1>
+                            <p className="mx-auto max-w-lg text-center font-poppins text-sm font-light leading-relaxed text-light-primary/85 md:mx-0 md:text-start">
+                                Oferecemos diferentes serviços para atender sua rotina e suas necessidades, sempre com conforto, qualidade e atendimento próximo.
+                            </p>
+                        </div>
+                    </Reveal>
                 </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 gap-y-15">
-                    {
-                        services.map((service) => (
-                            <ServiceCard key={service.id} {...service} />
-                        ))
-                    }
+
+                <div className="grid grid-cols-1 gap-5 gap-y-15 md:grid-cols-2 lg:grid-cols-4">
+                    {services.map((service) => (
+                        <ServiceCard key={service.id} {...service} />
+                    ))}
                 </div>
             </div>
         </section>
-    )
+    );
 }
