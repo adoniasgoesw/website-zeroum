@@ -1,4 +1,4 @@
-import LogoImage from "@/assets/logo01.svg";
+import LogoImage from "@/assets/Logo01.svg";
 
 export default function Logo({ className = "" }) {
     return (
