@@ -46,6 +46,9 @@ const quoteKeyframesTransition = {
     ease: [TESTIMONIAL_QUOTE_EASE, TESTIMONIAL_QUOTE_EASE],
 };
 
+/** Repouso das aspas na troca — sem opacity 0 (evita sumir ao remontar com key). */
+const quoteSwapRest = { opacity: 1, scale: 1, x: 0, rotate: 0 };
+
 function testimonialsScrollEase(t) {
     const clamped = Math.min(1, Math.max(0, t));
     return 1 - (1 - clamped) ** 1.55;
@@ -123,8 +126,9 @@ export default function Testumonials() {
 
     const activeQuoteAnimate =
         pulse === 0
-            ? { scale: 1, x: 0, rotate: 0 }
+            ? quoteSwapRest
             : {
+                  opacity: 1,
                   scale: scaleKeyframes,
                   x: [0, -translatePx, 0],
                   rotate: [0, -5, 0],
@@ -132,8 +136,9 @@ export default function Testumonials() {
 
     const activeQuoteAnimateRight =
         pulse === 0
-            ? { scale: 1, x: 0, rotate: 0 }
+            ? quoteSwapRest
             : {
+                  opacity: 1,
                   scale: scaleKeyframes,
                   x: [0, translatePx, 0],
                   rotate: [0, 5, 0],
@@ -154,6 +159,16 @@ export default function Testumonials() {
             : showEntranceRest
               ? quoteEntranceVisible
               : quoteBottomEntranceHidden;
+
+    const quoteLeftInitial =
+        pulse > 0 || reduceMotion
+            ? quoteSwapRest
+            : quoteTopEntranceHidden;
+
+    const quoteRightInitial =
+        pulse > 0 || reduceMotion
+            ? quoteSwapRest
+            : quoteBottomEntranceHidden;
 
     return (
         <motion.section
@@ -193,10 +208,8 @@ export default function Testumonials() {
                             <motion.span
                                 key={`quote-l-${pulse}`}
                                 className="inline-block will-change-transform"
-                                style={{ transformOrigin: "30% 30%" }}
-                                initial={
-                                    reduceMotion ? false : quoteTopEntranceHidden
-                                }
+                                style={{ transformOrigin: "50% 50%" }}
+                                initial={reduceMotion ? false : quoteLeftInitial}
                                 animate={quoteLeftAnimate}
                                 transition={
                                     pulse > 0
@@ -213,12 +226,8 @@ export default function Testumonials() {
                             <motion.span
                                 key={`quote-r-${pulse}`}
                                 className="inline-block will-change-transform"
-                                style={{ transformOrigin: "70% 70%" }}
-                                initial={
-                                    reduceMotion
-                                        ? false
-                                        : quoteBottomEntranceHidden
-                                }
+                                style={{ transformOrigin: "50% 50%" }}
+                                initial={reduceMotion ? false : quoteRightInitial}
                                 animate={quoteRightAnimate}
                                 transition={
                                     pulse > 0
