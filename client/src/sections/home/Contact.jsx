@@ -47,7 +47,9 @@ export default function Contact() {
                 </div>
 
                 <div className="flex w-full flex-col items-stretch justify-center md:h-[540px] md:w-1/2">
-                    <ContactForm />
+                    <Reveal className="flex h-full w-full min-h-0 flex-col">
+                        <ContactForm />
+                    </Reveal>
                 </div>
             </div>
         </section>

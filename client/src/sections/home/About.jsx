@@ -2,6 +2,7 @@ import Tag from "@/components/Tag";
 import Divisor from "@/components/Divisor";
 import { links, stats } from "@/data/Data";
 import AboutCard from "@/components/Cards/AbouteCard";
+import AboutStatItem from "@/components/AboutStatItem";
 import Button from "@/components/Buttons/Button";
 import Reveal from "@/components/motion/Reveal";
 
@@ -62,17 +63,12 @@ export default function About() {
 
                     <ul className="grid w-full grid-cols-1 gap-5 border-t border-light-primary/10 pt-8 sm:grid-cols-3 sm:gap-4 md:gap-6">
                         {stats.map((stat) => (
-                            <li
+                            <AboutStatItem
                                 key={stat.id}
-                                className="flex min-w-0 flex-col items-center gap-2 sm:items-start sm:border-l sm:border-highlight-primary/30 sm:pl-4 md:pl-5 first:sm:border-l-0 first:sm:pl-0"
-                            >
-                                <span className="text-center text-xs font-poppins font-light uppercase tracking-wide text-light-primary/70 sm:text-start md:text-sm">
-                                    {stat.label}
-                                </span>
-                                <span className="text-center font-syncopate text-4xl font-bold text-light-primary sm:text-start md:text-[2.75rem] xl:text-5xl">
-                                    {stat.value}
-                                </span>
-                            </li>
+                                label={stat.label}
+                                value={stat.value}
+                                countFrom={stat.countFrom ?? 0}
+                            />
                         ))}
                     </ul>
                 </div>

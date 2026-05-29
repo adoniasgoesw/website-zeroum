@@ -1,6 +1,6 @@
 import Tag from "@/components/Tag";
 import Divisor from "@/components/Divisor";
-import ServiceCard from "@/components/Cards/ServiceCard";
+import ServicesGrid from "@/components/ServicesGrid";
 import Reveal from "@/components/motion/Reveal";
 import { services } from "@/data/Data";
 
@@ -28,11 +28,7 @@ export default function Services() {
                     </Reveal>
                 </div>
 
-                <div className="grid grid-cols-1 gap-5 gap-y-15 md:grid-cols-2 lg:grid-cols-4">
-                    {services.map((service) => (
-                        <ServiceCard key={service.id} {...service} />
-                    ))}
-                </div>
+                <ServicesGrid services={services} />
             </div>
         </section>
     );

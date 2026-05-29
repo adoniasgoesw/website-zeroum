@@ -235,6 +235,7 @@ export const stats = [
         id: 1,
         label: "Inaugurado em",
         value: "2025",
+        countFrom: 2020,
     },
     {
         id: 2,

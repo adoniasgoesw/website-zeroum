@@ -1,5 +1,6 @@
 import Logo from "@/components/Logo";
 import Button from "@/components/Buttons/Button";
+import Reveal from "@/components/motion/Reveal";
 import { contact, links, navlinks, services } from "@/data/Data";
 import { buildWhatsAppUrl } from "@/lib/buildWhatsAppUrl";
 import { requestSectionNavigation } from "@/lib/sectionScrollNavigation";
@@ -26,7 +27,7 @@ export default function Footer() {
 
     return (
         <footer className="w-full bg-background-primary p-5">
-            <div className="flex w-full flex-col gap-10 rounded-2xl bg-background-secondary px-5 md:px-10 lg:px-15 xl:px-25 py-10 ring-1 ring-light-primary/8 sm:gap-12 ">
+            <Reveal className="flex w-full flex-col gap-10 rounded-2xl bg-background-secondary px-5 py-10 ring-1 ring-light-primary/8 sm:gap-12 md:px-10 lg:px-15 xl:px-25">
                 <div className="grid grid-cols-1 gap-10 sm:gap-12 md:grid-cols-2 lg:grid-cols-12 lg:gap-x-10 lg:gap-y-12">
                     <div className="flex flex-col items-start gap-4 md:max-w-sm lg:col-span-4">
                         <Logo className="self-start w-fit" />
@@ -162,7 +163,7 @@ export default function Footer() {
                         ) : null}
                     </div>
                 </div>
-            </div>
+            </Reveal>
         </footer>
     );
 }

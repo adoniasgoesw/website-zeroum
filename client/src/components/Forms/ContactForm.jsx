@@ -1,11 +1,37 @@
+import { useRef, useState } from "react";
+import { useInView, useReducedMotion } from "framer-motion";
 import Button from "../Buttons/Button";
 import Message from "@/components/Notifications/Message";
 import { useContactForm } from "@/hooks/useContactForm";
+import { useTypingPlaceholder } from "@/hooks/useTypingPlaceholder";
+import {
+    CONTACT_FORM_VIEWPORT,
+    CONTACT_PLACEHOLDERS,
+    CONTACT_TYPING_CHAR_MS,
+    contactTypingStartDelay,
+} from "@/constants/contactMotion";
 
 const inputClass =
     "w-full rounded-md border border-light-primary/20 p-4 font-poppins text-sm font-light text-light-primary placeholder:text-light-primary/50 focus:border-highlight-primary/60 focus:outline-none focus:ring-2 focus:ring-highlight-primary/25";
 
+function resolvePlaceholder({ focused, hasValue, typing, full }) {
+    if (focused || hasValue) return full;
+    return typing.placeholder;
+}
+
 export default function ContactForm() {
+    const articleRef = useRef(null);
+    const reduceMotion = useReducedMotion();
+    const sectionInView = useInView(articleRef, CONTACT_FORM_VIEWPORT);
+    const typingEnabled = sectionInView && !reduceMotion;
+
+    const [focusedFields, setFocusedFields] = useState({
+        name: false,
+        email: false,
+        phone: false,
+        message: false,
+    });
+
     const {
         values,
         setField,
@@ -17,6 +43,30 @@ export default function ContactForm() {
         dismissSuccess,
     } = useContactForm();
 
+    const nameTyping = useTypingPlaceholder(CONTACT_PLACEHOLDERS.name, {
+        enabled: typingEnabled,
+        startDelay: contactTypingStartDelay(0),
+        msPerChar: CONTACT_TYPING_CHAR_MS,
+    });
+
+    const emailTyping = useTypingPlaceholder(CONTACT_PLACEHOLDERS.email, {
+        enabled: typingEnabled,
+        startDelay: contactTypingStartDelay(1),
+        msPerChar: CONTACT_TYPING_CHAR_MS,
+    });
+
+    const phoneTyping = useTypingPlaceholder(CONTACT_PLACEHOLDERS.phone, {
+        enabled: typingEnabled,
+        startDelay: contactTypingStartDelay(2),
+        msPerChar: CONTACT_TYPING_CHAR_MS,
+    });
+
+    const messageTyping = useTypingPlaceholder(CONTACT_PLACEHOLDERS.message, {
+        enabled: typingEnabled,
+        startDelay: contactTypingStartDelay(3),
+        msPerChar: CONTACT_TYPING_CHAR_MS,
+    });
+
     if (isSuccess) {
         return (
             <Message
@@ -27,7 +77,10 @@ export default function ContactForm() {
     }
 
     return (
-        <article className="flex w-full flex-col gap-5 rounded-2xl bg-background-secondary p-5 sm:p-6 md:h-full md:p-10">
+        <article
+            ref={articleRef}
+            className="flex w-full flex-col gap-5 rounded-2xl bg-background-secondary p-5 sm:p-6 md:h-full md:p-10"
+        >
             <form
                 className="flex w-full flex-col gap-5 md:h-full md:min-h-0"
                 onSubmit={submit}
@@ -49,7 +102,15 @@ export default function ContactForm() {
                         disabled={isLoading}
                         value={values.name}
                         onChange={(e) => setField("name", e.target.value)}
-                        placeholder="Digite seu nome"
+                        onFocus={() =>
+                            setFocusedFields((s) => ({ ...s, name: true }))
+                        }
+                        placeholder={resolvePlaceholder({
+                            focused: focusedFields.name,
+                            hasValue: Boolean(values.name),
+                            typing: nameTyping,
+                            full: CONTACT_PLACEHOLDERS.name,
+                        })}
                         className={inputClass}
                     />
                 </div>
@@ -71,7 +132,15 @@ export default function ContactForm() {
                             disabled={isLoading}
                             value={values.email}
                             onChange={(e) => setField("email", e.target.value)}
-                            placeholder="Digite seu e-mail"
+                            onFocus={() =>
+                                setFocusedFields((s) => ({ ...s, email: true }))
+                            }
+                            placeholder={resolvePlaceholder({
+                                focused: focusedFields.email,
+                                hasValue: Boolean(values.email),
+                                typing: emailTyping,
+                                full: CONTACT_PLACEHOLDERS.email,
+                            })}
                             className={inputClass}
                         />
                     </div>
@@ -91,7 +160,15 @@ export default function ContactForm() {
                             disabled={isLoading}
                             value={values.phone}
                             onChange={(e) => setField("phone", e.target.value)}
-                            placeholder="(11) 99999-9999"
+                            onFocus={() =>
+                                setFocusedFields((s) => ({ ...s, phone: true }))
+                            }
+                            placeholder={resolvePlaceholder({
+                                focused: focusedFields.phone,
+                                hasValue: Boolean(values.phone),
+                                typing: phoneTyping,
+                                full: CONTACT_PLACEHOLDERS.phone,
+                            })}
                             className={inputClass}
                         />
                     </div>
@@ -111,7 +188,15 @@ export default function ContactForm() {
                         disabled={isLoading}
                         value={values.message}
                         onChange={(e) => setField("message", e.target.value)}
-                        placeholder="Digite sua mensagem"
+                        onFocus={() =>
+                            setFocusedFields((s) => ({ ...s, message: true }))
+                        }
+                        placeholder={resolvePlaceholder({
+                            focused: focusedFields.message,
+                            hasValue: Boolean(values.message),
+                            typing: messageTyping,
+                            full: CONTACT_PLACEHOLDERS.message,
+                        })}
                         rows={5}
                         className={`${inputClass} min-h-[8.5rem] resize-y sm:min-h-[9.5rem] md:min-h-0 md:h-full md:flex-1`}
                     />

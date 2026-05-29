@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import {
     motion,
+    useInView,
     useReducedMotion,
     useScroll,
     useTransform,
@@ -16,6 +17,23 @@ import {
     subscribeViewportTier,
 } from "@/lib/viewportTier";
 import {
+    cardEntranceHidden,
+    cardEntranceVisible,
+    navEntranceHidden,
+    navEntranceVisible,
+    quoteBottomEntranceHidden,
+    quoteEntranceVisible,
+    quoteTopEntranceHidden,
+    TESTIMONIAL_ENTRANCE_VIEWPORT,
+    TESTIMONIAL_STEP_BOTTOM,
+    TESTIMONIAL_STEP_CARD,
+    TESTIMONIAL_STEP_NAV,
+    TESTIMONIAL_STEP_TOP,
+    TESTIMONIALS_FLOAT_PX,
+    TESTIMONIALS_SCROLL_OFFSET_BY_TIER,
+    testimonialEntranceTransition,
+} from "@/constants/testimonialsEntrance";
+import {
     QUOTE_TRANSLATE_PX,
     TESTIMONIAL_QUOTE_CYCLE_TIMES,
     TESTIMONIAL_QUOTE_EASE,
@@ -28,24 +46,9 @@ const quoteKeyframesTransition = {
     ease: [TESTIMONIAL_QUOTE_EASE, TESTIMONIAL_QUOTE_EASE],
 };
 
-/** Deslocamento inicial (translateY) antes de assentar na posição final. */
-const TESTIMONIALS_FLOAT_PX = 100;
-
-/**
- * Janela de scroll — progresso 1 mais cedo = animação mais rápida e responsiva ao gesto.
- * Valores maiores no eixo “start X” completam a subida com menos percurso de scroll.
- */
-const TESTIMONIALS_SCROLL_OFFSET_BY_TIER = /** @type {const} */ ({
-    mobile: ["start end", "start 0.52"],
-    sm: ["start end", "start 0.48"],
-    md: ["start end", "start 0.44"],
-    lg: ["start end", "start 0.4"],
-});
-
-/** Curva ease-out: responde cedo ao scroll e assenta sem “travadas” no final. */
 function testimonialsScrollEase(t) {
     const clamped = Math.min(1, Math.max(0, t));
-    return 1 - (1 - clamped) ** 1.65;
+    return 1 - (1 - clamped) ** 1.55;
 }
 
 function useQuoteTranslatePx() {
@@ -64,6 +67,8 @@ function useQuoteTranslatePx() {
 export default function Testumonials() {
     const sectionRef = useRef(null);
     const reduceMotion = useReducedMotion();
+    const sectionInView = useInView(sectionRef, TESTIMONIAL_ENTRANCE_VIEWPORT);
+    const [entrancePlayed, setEntrancePlayed] = useState(false);
 
     const tier = useSyncExternalStore(
         subscribeViewportTier,
@@ -78,12 +83,17 @@ export default function Testumonials() {
         offset: scrollOffset,
     });
 
-    /** Ligado ao scroll, reversível; easing leve para movimento contínuo sem “respiros”. */
     const y = useTransform(scrollYProgress, (p) => {
         if (reduceMotion) return 0;
         const eased = testimonialsScrollEase(p);
         return TESTIMONIALS_FLOAT_PX * (1 - eased);
     });
+
+    useEffect(() => {
+        if (sectionInView) setEntrancePlayed(true);
+    }, [sectionInView]);
+
+    const playEntrance = entrancePlayed && !reduceMotion;
 
     const [activeIndex, setActiveIndex] = useState(0);
     const [hasAnimatedSwap, setHasAnimatedSwap] = useState(false);
@@ -129,6 +139,22 @@ export default function Testumonials() {
                   rotate: [0, 5, 0],
               };
 
+    const showEntranceRest = reduceMotion || playEntrance;
+
+    const quoteLeftAnimate =
+        pulse > 0
+            ? activeQuoteAnimate
+            : showEntranceRest
+              ? quoteEntranceVisible
+              : quoteTopEntranceHidden;
+
+    const quoteRightAnimate =
+        pulse > 0
+            ? activeQuoteAnimateRight
+            : showEntranceRest
+              ? quoteEntranceVisible
+              : quoteBottomEntranceHidden;
+
     return (
         <motion.section
             id="testimonials"
@@ -137,7 +163,16 @@ export default function Testumonials() {
             className="relative h-[700px] w-full overflow-visible bg-background-secondary px-6 py-20 transform-gpu sm:px-10 md:px-16 lg:px-20 xl:px-32"
         >
             <div className="relative h-full w-full">
-                <div className="absolute top-0 right-0 z-20 flex w-full justify-end gap-2">
+                <motion.div
+                    className="absolute top-0 right-0 z-20 flex w-full justify-end gap-2"
+                    initial={reduceMotion ? navEntranceVisible : navEntranceHidden}
+                    animate={
+                        playEntrance || reduceMotion
+                            ? navEntranceVisible
+                            : navEntranceHidden
+                    }
+                    transition={testimonialEntranceTransition(TESTIMONIAL_STEP_NAV)}
+                >
                     <Button
                         icon={<ChevronLeft className="size-6" />}
                         variant="icon"
@@ -150,37 +185,47 @@ export default function Testumonials() {
                         type="button"
                         onClick={goNext}
                     />
-                </div>
+                </motion.div>
 
-                <div className="absolute top-0 left-0 h-full w-full">
+                <div className="absolute top-0 left-0 h-full w-full pointer-events-none">
                     <div className="flex h-full w-full flex-col">
-                        <div className="h-full w-full">
+                        <div className="h-full w-full pointer-events-auto">
                             <motion.span
                                 key={`quote-l-${pulse}`}
                                 className="inline-block will-change-transform"
-                                style={{ transformOrigin: "50% 50%" }}
-                                initial={{ scale: 1, x: 0, rotate: 0 }}
-                                animate={activeQuoteAnimate}
+                                style={{ transformOrigin: "30% 30%" }}
+                                initial={
+                                    reduceMotion ? false : quoteTopEntranceHidden
+                                }
+                                animate={quoteLeftAnimate}
                                 transition={
-                                    pulse === 0
-                                        ? { duration: 0 }
-                                        : quoteKeyframesTransition
+                                    pulse > 0
+                                        ? quoteKeyframesTransition
+                                        : testimonialEntranceTransition(
+                                              TESTIMONIAL_STEP_TOP,
+                                          )
                                 }
                             >
                                 <BiSolidQuoteLeft className="size-20 text-light-primary lg:size-30 xl:size-40" />
                             </motion.span>
                         </div>
-                        <div className="flex h-full w-full items-end justify-end">
+                        <div className="flex h-full w-full items-end justify-end pointer-events-auto">
                             <motion.span
                                 key={`quote-r-${pulse}`}
                                 className="inline-block will-change-transform"
-                                style={{ transformOrigin: "50% 50%" }}
-                                initial={{ scale: 1, x: 0, rotate: 0 }}
-                                animate={activeQuoteAnimateRight}
+                                style={{ transformOrigin: "70% 70%" }}
+                                initial={
+                                    reduceMotion
+                                        ? false
+                                        : quoteBottomEntranceHidden
+                                }
+                                animate={quoteRightAnimate}
                                 transition={
-                                    pulse === 0
-                                        ? { duration: 0 }
-                                        : quoteKeyframesTransition
+                                    pulse > 0
+                                        ? quoteKeyframesTransition
+                                        : testimonialEntranceTransition(
+                                              TESTIMONIAL_STEP_BOTTOM,
+                                          )
                                 }
                             >
                                 <BiSolidQuoteRight className="size-20 text-light-primary lg:size-30 xl:size-40" />
@@ -188,14 +233,24 @@ export default function Testumonials() {
                         </div>
                     </div>
                 </div>
-                <div className="flex h-full w-full items-center justify-center">
+
+                <motion.div
+                    className="relative z-10 flex h-full w-full items-center justify-center"
+                    initial={reduceMotion ? cardEntranceVisible : cardEntranceHidden}
+                    animate={
+                        playEntrance || reduceMotion
+                            ? cardEntranceVisible
+                            : cardEntranceHidden
+                    }
+                    transition={testimonialEntranceTransition(TESTIMONIAL_STEP_CARD)}
+                >
                     <TestimonialsCard
                         name={current.name}
                         description={current.description}
                         swapKey={current.id}
                         enableSwapAnimation={hasAnimatedSwap}
                     />
-                </div>
+                </motion.div>
             </div>
         </motion.section>
     );

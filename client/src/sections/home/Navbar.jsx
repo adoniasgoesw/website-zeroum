@@ -6,6 +6,8 @@ import { FaWhatsapp } from "react-icons/fa";
 import { useCallback, useEffect, useState } from "react";
 import { SECTION_NAVIGATE_EVENT } from "@/lib/sectionScrollNavigation";
 import { useReducedMotion } from "framer-motion";
+import NavbarEntrance from "@/components/motion/NavbarEntrance";
+import { NAVBAR_ENTRANCE_STAGGER } from "@/constants/navbarMotion";
 import { buildWhatsAppUrl } from "@/lib/buildWhatsAppUrl";
 import { useNavbarScrollSpy } from "@/hooks/useNavbarScrollSpy";
 import { useNavIndicatorPosition } from "@/hooks/useNavIndicatorPosition";
@@ -180,9 +182,14 @@ export default function Navbar() {
             className="fixed top-0 left-0 z-50 h-auto w-full bg-background-primary px-6 py-5 sm:px-10 md:px-16 lg:px-20 xl:px-32"
         >
             <nav className="flex w-full min-w-0 items-center justify-between gap-3">
-                <Logo />
+                <NavbarEntrance className="shrink-0">
+                    <Logo />
+                </NavbarEntrance>
 
-                <div className="hidden lg:block">
+                <NavbarEntrance
+                    delay={NAVBAR_ENTRANCE_STAGGER}
+                    className="hidden min-w-0 lg:block"
+                >
                     <div ref={navRef} className="relative pb-3">
                         <ul className="flex items-center  xl:gap-5">
                             {navlinks.map((link, index) => (
@@ -216,9 +223,12 @@ export default function Navbar() {
                             }}
                         />
                     </div>
-                </div>
+                </NavbarEntrance>
 
-                <div className="z-20 lg:hidden">
+                <NavbarEntrance
+                    delay={NAVBAR_ENTRANCE_STAGGER * 2}
+                    className="z-20 shrink-0 lg:hidden"
+                >
                     <Button
                         icon={isOpen ? <X /> : <Menu />}
                         variant="IconMenu"
@@ -229,9 +239,12 @@ export default function Navbar() {
                         }
                         onClick={() => setIsOpen((open) => !open)}
                     />
-                </div>
+                </NavbarEntrance>
 
-                <div className="hidden xl:block">
+                <NavbarEntrance
+                    delay={NAVBAR_ENTRANCE_STAGGER * 2}
+                    className="hidden shrink-0 xl:block"
+                >
                     <a
                         href={whatsappUrl}
                         target="_blank"
@@ -246,7 +259,7 @@ export default function Navbar() {
                             type="button"
                         />
                     </a>
-                </div>
+                </NavbarEntrance>
             </nav>
 
             {isOpen ? (
