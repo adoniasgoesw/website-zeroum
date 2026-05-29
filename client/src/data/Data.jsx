@@ -1,8 +1,8 @@
 import ServiceImage from "../assets/Service.jpeg";
 
-import ServiceImage01 from "../assets/service001.jpg";
-import ServiceImage02 from "../assets/service002.jpg";
-import ServiceImage03 from "../assets/service003.jpg";
+import ServiceImage01 from "../assets/Service001.jpg";
+import ServiceImage02 from "../assets/Service002.jpg";
+import ServiceImage03 from "../assets/Service003.jpg";
 import ServiceImage04 from "../assets/service004.jpg";
 
 
@@ -235,6 +235,7 @@ export const stats = [
         id: 1,
         label: "Inaugurado em",
         value: "2025",
+        countFrom: 2020,
     },
     {
         id: 2,
