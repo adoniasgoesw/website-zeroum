@@ -13,10 +13,10 @@ export default function Hero() {
             className="relative flex min-h-screen w-full items-center justify-start bg-background-primary px-6 py-20 sm:px-10 md:px-16 lg:px-20 xl:px-32 overflow-hidden"
         >
 
-            <div className="absolute top-0 left-0 h-full w-full bg-background-primary/50  z-10 lg:hidden" />
+            <div className="absolute top-0 left-0 h-full w-full bg-background-primary/30  z-10" />
 
             
-            <div className="absolute top-0 lg:top-20 left-0 h-full w-full z-0">
+            <div className="absolute top-0  left-0 h-full w-full z-0">
                 <img
                     src={HeroImage}
                     alt="Ambiente do Zero Um Studio"
