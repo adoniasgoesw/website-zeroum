@@ -4,6 +4,9 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
+    "sync:logo": "node scripts/sync-logo.mjs",
+    "predev": "npm run sync:logo",
+    "prebuild": "npm run sync:logo",
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",
