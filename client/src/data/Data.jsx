@@ -240,7 +240,7 @@ export const stats = [
     {
         id: 2,
         label: "Clientes atendidos",
-        value: "200+",
+        value: "2000+",
     },
     {
         id: 3,
