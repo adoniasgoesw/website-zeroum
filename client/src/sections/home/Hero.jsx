@@ -1,4 +1,4 @@
-import HeroImage from "@/assets/Hero.jpg";
+import HeroImage from "@/assets/HeroTest9.png";
 import Tag from "@/components/Tag";
 import Divisor from "@/components/Divisor";
 import Button from "@/components/Buttons/Button";
