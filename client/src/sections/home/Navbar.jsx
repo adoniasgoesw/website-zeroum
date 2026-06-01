@@ -15,6 +15,7 @@ import {
     getSmoothScrollDurationMs,
     smoothScrollToSection,
 } from "@/lib/smoothSectionScroll";
+import { cn } from "@/lib/utils";
 
 const INDICATOR_EASE = "cubic-bezier(0.45, 0, 0.55, 1)";
 const INDICATOR_TRANSITION_IDLE_MS = 550;
@@ -58,6 +59,7 @@ export default function Navbar() {
     );
 
     const displayIndex = pinnedIndex ?? scrollActiveIndex;
+    const isInHero = hrefs[displayIndex] === "#home";
 
     const { navRef, x, width } = useNavIndicatorPosition(displayIndex, {
         enabled: isDesktopNav,
@@ -177,7 +179,12 @@ export default function Navbar() {
     return (
         <header
             data-site-header
-            className="fixed top-0 left-0 z-50 h-auto w-full bg-background-primary px-6 py-5 sm:px-10 md:px-16 lg:px-20 xl:px-32"
+            className={cn(
+                "fixed top-0 left-0 z-50 h-auto w-full px-6 py-5 transition-colors duration-300 ease-[cubic-bezier(0.45,0,0.55,1)] sm:px-10 md:px-16 lg:px-20 xl:px-32",
+                isInHero
+                    ? "bg-background-primary/20"
+                    : "bg-background-primary",
+            )}
         >
             <nav className="flex w-full min-w-0 items-center justify-between gap-3">
                 <Logo />
