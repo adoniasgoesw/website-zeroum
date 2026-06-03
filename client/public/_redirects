@@ -1,2 +1,5 @@
-# SPA: client-side routes serve index.html (Netlify)
-/*    /index.html   200
+# Ícone e assets estáticos — antes do fallback SPA (evita servir index.html no lugar do SVG)
+/logo.svg       /logo.svg       200
+/favicon.svg    /favicon.svg    200
+/assets/*       /assets/:splat  200
+/*              /index.html     200

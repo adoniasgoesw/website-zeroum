@@ -1,0 +1,69 @@
+Task: Create Complete Project Documentation (README.md)
+
+Perform a complete analysis of the entire website project, including all files, folders, pages, components, assets, configurations, and architecture.
+
+Generate a professional and detailed README.md in English.
+
+Requirements:
+
+* Analyze the entire project structure.
+* Document all folders and files.
+* Explain the architecture and application flow.
+* Describe all technologies, frameworks, libraries, and tools used.
+* Document all pages, sections, and components.
+* Describe all services and integrations.
+* Document all images, logos, icons, and media assets.
+* Explain environment variables and external services.
+* Document routing structure.
+* Explain state management strategy (if applicable).
+* Document deployment process and hosting configuration.
+* Include project setup and installation instructions.
+* Include development workflow instructions.
+* Include build and production instructions.
+* Include maintenance guidelines.
+* Include SEO-related configurations.
+* Include performance optimizations implemented.
+* Include accessibility considerations.
+* Include responsive design implementation details.
+* Include project conventions and coding standards.
+
+Project Information:
+
+* Project Name: Barbearia Studio
+* Business Type: Premium Barbershop
+* Location: São Paulo, Brazil
+* Focus: High-quality barbering services, customer experience, and modern digital presence.
+
+Credits:
+
+* Developer: Leonidas Gois
+* Creator: Leandro Henrique
+
+README Structure:
+
+1. Project Overview
+2. Business Context
+3. Features
+4. Technology Stack
+5. Project Architecture
+6. Folder Structure
+7. Application Flow
+8. Pages Documentation
+9. Components Documentation
+10. Assets Documentation
+11. Services and Integrations
+12. Environment Variables
+13. Installation
+14. Development
+15. Build and Deployment
+16. Performance Optimizations
+17. SEO Configuration
+18. Accessibility
+19. Responsive Design
+20. Maintenance Guide
+21. Future Improvements
+22. Credits
+23. License
+24. Last Updated (include current date)
+
+The generated README must be highly detailed, professional, and suitable for long-term project maintenance and future developers onboarding. Analyze every available file and directory before generating the documentation.

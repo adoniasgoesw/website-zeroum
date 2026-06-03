@@ -58,19 +58,20 @@ export default function About() {
                             )}
                         </div>
 
-                        <ul className="grid w-full grid-cols-1 gap-5 border-t border-light-primary/10 pt-8 sm:grid-cols-3 sm:gap-4 md:gap-6">
+                        <ul className="flex flex-col gap-5 items-center justify-center lg:flex-row lg:justify-between border-t border-light-primary/10 pt-8">
                             {stats.map((stat) => (
-                                <li
-                                    key={stat.id}
-                                    className="flex min-w-0 flex-col items-center gap-2 sm:items-start sm:border-l sm:border-highlight-primary/30 sm:pl-4 md:pl-5 first:sm:border-l-0 first:sm:pl-0"
-                                >
-                                    <span className="text-center text-xs font-poppins font-light uppercase tracking-wide text-light-primary/70 sm:text-start md:text-sm">
+                               <li key={stat.id} className="">
+                                <div className="flex flex-col items-center justify-center lg:items-start lg:justify-start gap-2">
+                                    <span className="text-light-primary/85 font-poppins text-sm font-light leading-relaxed uppercase">
                                         {stat.label}
                                     </span>
-                                    <span className="text-center font-syncopate text-4xl font-bold text-light-primary sm:text-start md:text-[2.75rem] xl:text-5xl">
+                                    <span className="text-light-primary/85 font-syncopate text-5xl font-bold">
                                         {stat.value}
                                     </span>
-                                </li>
+                                </div>
+
+
+                               </li>
                             ))}
                         </ul>
                     </div>
